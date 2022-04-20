@@ -1,19 +1,21 @@
 (in-package :mcas)
 
-(defvar *mcas-index*  0)
+
+;;(defvar *mcas-index*  0)
+(defvar *mcas-index* (make-atomic-fixnum 0))
 
 (defstruct ref
   val)
 
 (defmethod ref (obj)
   ;; we need this to be a defmethod for FSTM
-  (make-ref
-   :val obj))
+  (make-ref :val obj))
 
 (defstruct (mcas-ref
             (:include ref)
             (:constructor make-mcas-ref (val)))
-  (id (incf *mcas-index*) :read-only t))
+  ;;(id (incf *mcas-index*) :read-only t))
+  (id (atomic-fixnum-incf *mcas-index*) :read-only t))
 
 (defmethod compare ((a mcas-ref) (b mcas-ref))
   (- (mcas-ref-id a) (mcas-ref-id b)))
