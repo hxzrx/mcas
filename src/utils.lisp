@@ -142,3 +142,21 @@ the original order will be kept."
   "Partition ARGS into a list of lists which length is 3."
   ;; (triples 1 2 3 4 5 6 7 8 9 0) -> '((1 2 3) (4 5 6) (7 8 9) (0))
   (group args 3))
+
+(defun make-atomic-fixnum (&optional (init-value 0))
+  "Return an object whose place can make compare-and-swap operation."
+  (declare (optimize (speed 3) (safety 0) (debug 0)))
+  (declare (fixnum value))
+  #+ccl (make-array 1 :initial-element init-value)
+  #-ccl (cons init-value nil))
+
+(defmacro atomic-fixnum-place (atomic-fixnum)
+  "Return the place/value of ATOMIC-FIXNUM."
+  #+ccl `(svref ,atomic-fixnum 0)
+  #-ccl `(car ,atomic-fixnum))
+
+(defun atomic-fixnum-incf (atomic-fixnum &optional (delta 1))
+  "Atomic incf ATOMIC-FIXNUM with DELTA and return the new value."
+  (atomics:atomic-incf
+      (atomic-fixnum-place atomic-fixnum)
+      delta))
