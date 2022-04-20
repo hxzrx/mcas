@@ -12,7 +12,7 @@
 
 (defstruct (mcas-ref
             (:include ref)
-            (:constructor mcas-ref (val)))
+            (:constructor make-mcas-ref (val)))
   (id (incf *mcas-index*) :read-only t))
 
 (defmethod compare ((a mcas-ref) (b mcas-ref))
@@ -109,16 +109,15 @@
                            (mcas-ref-id (first tup)))
                     ))))
 
-(defmethod val ((m mcas-ref))
+(defmethod mcas-val ((m mcas-ref))
   ;; to get the current value of an mcas-ref
-  ;; always use either ref:val or mcas-read
   (mcas-read m))
 
 (defmethod cas-object ((m mcas-ref) old new)
   (mcas m old new))
 
-(let* ((a  (mcas-ref 15))
-       (b  (mcas-ref 16)))
+(let* ((a  (make-mcas-ref 15))
+       (b  (make-mcas-ref 16)))
   (mcas  a 15 32
          b 16 33)
-  (list (val a) (val b)))
+  (list (mcas-val a) (mcas-val b)))
