@@ -1,3 +1,5 @@
 (defpackage #:mcas
   (:use :cl)
-  (:export #:mcas))
+  (:export #:make-mcas-ref
+           #:mcas
+           #:mcas-val))
