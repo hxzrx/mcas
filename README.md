@@ -4,7 +4,7 @@ An N-way MCAS, without contention, needs only N+1 CAS instructions.
 This library was ported from the mcas file in David McClain's Lisp-Actors library,
 <https://github.com/dbmcclain/Lisp-Actors/blob/main/data-objects/mcas-v4.lisp>
 
-# APIs
+# API
 The APIs are quite simple, only expert mcas-ref, make-mcas-ref, mcas, and mcas-val.
 
 ## mcas-ref
@@ -30,17 +30,20 @@ The basis usage of mcas is very like that of normal cas, except mcas' arguments 
   (list (mcas-val a) (mcas-val b)))
 ```
 
-# Licence
-The vanilla Lisp-Actors is shared with licence "Unlicense License".
-This licence claims that anyone is free to copy, modify, publish, use, compile,
-sell, or distribute this software, either in source code form or as a compiled
-binary, for any purpose, commercial or non-commercial, and by any means.
+# Limitation
+The limitation of this library is that the mcas-places are restricted to mcas-ref structure. And the normal cas-places can be car of a list, slot of a struct, svref of a simple-array, etc, although they depend on the CL implementation.
 
 # Potability
 The vanilla mcas can be used only in Lispworks,
 this mcas library depends on Shinmera's atomics library,
 which decides the potability of this library.
 https://github.com/Shinmera/atomics
+
+# Licence
+The vanilla Lisp-Actors is shared with licence "Unlicense License".
+This licence claims that anyone is free to copy, modify, publish, use, compile,
+sell, or distribute this software, either in source code form or as a compiled
+binary, for any purpose, commercial or non-commercial, and by any means.
 
 # Version
 The version of this library will keep up with that of Lisp-Actors.
