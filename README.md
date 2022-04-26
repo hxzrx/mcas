@@ -22,13 +22,13 @@ Get the current value of an mcas-ref.
 
 # Usage
 The basis usage of mcas is very like that of normal cas, except mcas' arguments are triples.
-`
+```commonlisp
 (let* ((a  (make-mcas-ref 15))
        (b  (make-mcas-ref 16)))
   (mcas  a 15 32
          b 16 33)
   (list (mcas-val a) (mcas-val b)))
-`
+```
 
 # Licence
 The vanilla Lisp-Actors is shared with licence "Unlicense License".
