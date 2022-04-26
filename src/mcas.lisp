@@ -1,5 +1,16 @@
+;; MCAS-v4.lisp -- Multiple CAS on CAR/CDR of ref-cells.
+;;
+;; Adapted from "Efficient Multi-word Compare and Swap", by Guerraoui,
+;; Kogan, Marathe, and Zablotchi
+;;
+;; An N-way MCAS, without contention, needs only N+1 CAS instructions.
+;;
+;; DM/RAL  12/20
+;; -------------------------------------------------------------
+
 (in-package :mcas)
 
+(declaim (optimize (speed 3)))
 
 (defvar *mcas-index* (make-atomic-fixnum 0))
 ;;(defvar *mcas-index*  0)
