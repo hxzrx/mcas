@@ -5,4 +5,4 @@
 
 (in-package :mcas-test)
 
-(define-test mcas-test)
+(define-test mcas)
