@@ -39,5 +39,5 @@
   :components ((:module "test"
                 :serial t
                 :components ((:file "package")
-                             )))
+                             (:file "mcas"))))
   :perform (test-op (o s) (uiop:symbol-call :parachute :test :mcas-test)))
