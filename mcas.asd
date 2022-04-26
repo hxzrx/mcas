@@ -34,6 +34,7 @@
   :license "Unlicense"
   :serial t
   :depends-on (:mcas
+               :bordeaux-threads
                :parachute)
   :components ((:module "test"
                 :serial t
