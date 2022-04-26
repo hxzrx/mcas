@@ -1,11 +1,11 @@
 (in-package :mcas)
 
 
-;;(defvar *mcas-index*  0)
 (defvar *mcas-index* (make-atomic-fixnum 0))
+;;(defvar *mcas-index*  0)
 
 (defstruct ref
-  val)
+  val) ; val can be :undecided, :successful
 
 (defmethod ref (obj)
   ;; we need this to be a defmethod for FSTM
@@ -102,8 +102,9 @@
   (successful-p mdesc))
 
 (defun mcas (&rest triples)
-  ;; triples - a sequence of (ref old new) as would be suitable for
-  ;; CAS. But each ref must be a total-order MCAS-REF.
+  "Return T if mcas succeeded, or NIl if it failed.
+TRIPLES: a sequence of (ref old new) as would be suitable for CAS.
+But each ref must be a total-order MCAS-REF."
   (mcas-help (make-mcas-desc
               (sort (apply 'triples triples)
                     '<
@@ -112,14 +113,18 @@
                     ))))
 
 (defmethod mcas-val ((m mcas-ref))
-  ;; to get the current value of an mcas-ref
+  "To get the current value of an mcas-ref."
   (mcas-read m))
 
 (defmethod cas-object ((m mcas-ref) old new)
   (mcas m old new))
 
+
+#|
+;; basic usage
 (let* ((a  (make-mcas-ref 15))
        (b  (make-mcas-ref 16)))
   (mcas  a 15 32
          b 16 33)
-  (list (mcas-val a) (mcas-val b)))
+(list (mcas-val a) (mcas-val b)))
+|#
